@@ -1,1 +1,3 @@
 Server text file example
+
+Update to see if cloned repository works
