@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "react-router": "^7.13.1"
+  }
+}
