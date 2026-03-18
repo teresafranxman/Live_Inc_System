@@ -2,7 +2,7 @@
 
 const router = require('express').Router();
 const dao = require('../dao/itemsDao');
-const { validateItem } = require('../validation/itemValidation');
+const { validateItem } = require('../validation/productValidation');
 
 // GET /products
 router.get('/', (req, res) => {

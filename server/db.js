@@ -1,4 +1,4 @@
-// db.js - SQLite connection + table boobstrap
+/* // db.js - SQLite connection + table boobstrap
 
 const path = require('path');
 const Database = require('sqlite3');
@@ -23,4 +23,4 @@ db.exec(`
     );
 `);
 
-module.exports = db;
+module.exports = db; */
