@@ -15,7 +15,8 @@ app.get('/__ping', (req , res) => {
     res.json({ok: true});
 });
 
-//app.use('/products', itemsRouter);
+// Items API
+app.use('/products', itemsRouter);
 
 // 404 handler -- for unknown routes
 app.use((req, res) => {
