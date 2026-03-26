@@ -1,5 +1,17 @@
-/* // db.js - SQLite connection + table boobstrap
+// db.js - Database connection, need Maya help here
 
+// -------- //
+import mysql from "mysql2/promise";
+
+export const db = await sqlite3.createPool({
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "your_db"
+});
+// -------- //
+
+/*
 const path = require('path');
 const Database = require('sqlite3');
 
