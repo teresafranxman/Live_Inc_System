@@ -1,4 +1,4 @@
-// Product Routes for API
+// Product Routes for Products API
 
 import express from "express";
 import {

@@ -1,4 +1,4 @@
-// Products Model for API
+// Products Model for Products API
 
 import { db } from "../config/db.js";
 

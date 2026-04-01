@@ -1,4 +1,4 @@
-// Customer Controller for API
+// Customer Controller for Customer API
 
 import { Customer } from "../models/customerModel.js";
 
@@ -19,7 +19,7 @@ export const createCustomer = async (req, res) => {
 
 export const updateCustomer = async (req, res) => {
     await Customer.update(req.params.id, req.body);
-    res.sendStatus(204);
+    res.sendStatus(200);
 };
 
 export const deleteCustomer = async (req, res) => {

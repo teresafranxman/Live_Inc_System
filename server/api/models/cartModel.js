@@ -1,11 +1,11 @@
-// Cart Model for API
+// Cart Model for Cart API
 
 import { db } from "../config/db.js";
 
 export const Cart = {
-    getAll: async () => {
-        const [rows] = await db.query("SELECT * FROM cart");
-        return rows;
+    getById: async (id) => {
+        const [rows] = await db.query("SELECT * FROM cart WHERE CustomerID = ?", [id]);
+        return rows[0];
     },
 
     create: async (cart) => {
@@ -19,4 +19,18 @@ export const Cart = {
 
         return result.insertId;
     },
+
+    update: async (id, cart) => {
+        const { ProductID, CustomerID } = cart;
+
+        await db.query(
+            `UPDATE cart SET ProductID=?, CustomerID=?
+             WHERE CartID=?`
+            [ProductID, CustomerID, id]
+        );
+    },
+
+    delete: async (id) => {
+        await db.query("DELETE FROM cart WHERE CartID = ?", [id]);
+    }
 }

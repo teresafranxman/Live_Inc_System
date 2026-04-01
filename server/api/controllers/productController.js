@@ -1,4 +1,4 @@
-// Product controller for API
+// Product controller for Products API
 
 import { Product } from "../models/productModel.js";
 
@@ -19,7 +19,7 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     await Product.update(req.params.id, req.body);
-    res.sendStatus(204);
+    res.sendStatus(200);
 };
 
 export const deleteProduct = async (req, res) => {

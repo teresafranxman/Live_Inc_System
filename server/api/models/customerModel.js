@@ -1,4 +1,4 @@
-// Customer Model for API
+// Customer Model for Customer API
 
 import { db } from "../config/db.js";
 
@@ -25,7 +25,7 @@ export const Customer = {
         return result.insertId;
     },
 
-    update: async (id, product) => {
+    update: async (id, customer) => {
         const { firstName, lastName, email, password, contactNumber, street, city, state, zipcode } = customer;
 
         await db.query(
