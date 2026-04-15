@@ -5,7 +5,7 @@ import { db } from "../config/db.js";
 export const Product = {
     getAll: async () => {
         const result = await db.query(
-            `SELECT "ProductID", name, "productImg", description, price, quantity
+            `SELECT "ProductID", name, "productImg", description, price, quantity, rating
              FROM products`
         );
         return result.rows;
@@ -13,7 +13,7 @@ export const Product = {
 
     getById: async (id) => {
         const result = await db.query(
-            `SELECT "ProductID", name, "productImg", description, price, quantity
+            `SELECT "ProductID", name, "productImg", description, price, quantity, rating
              FROM products
              WHERE "ProductID" =$1`,
             [id]
@@ -27,14 +27,15 @@ export const Product = {
             productImg,
             description,
             price,
-            quantity
+            quantity,
+            rating
         } = product;
 
         const result = await db.query(
-            `INSERT INTO products (name, "productImg", description, price, quantity)
-             VALUES ($1, $2, $3, $4)
+            `INSERT INTO products (name, "productImg", description, price, quantity, rating)
+             VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING "ProductID"`,
-            [name, productImg, description, price, quantity]
+            [name, productImg, description, price, quantity, rating]
         );
 
         return result.rows[0].ProductID;
@@ -46,14 +47,15 @@ export const Product = {
             productImg,
             description,
             price,
-            quantity
+            quantity,
+            rating
         } = product;
 
         const result = await db.query(
             `UPDATE products 
-             SET name=$1, "productImg"=$2, description=$3, price=$4, quantity=$5
-             WHERE "ProductID"=$6`,
-            [name, productImg, description, price, quantity, id]
+             SET name=$1, "productImg"=$2, description=$3, price=$4, quantity=$5, rating=$6
+             WHERE "ProductID"=$7`,
+            [name, productImg, description, price, quantity, rating, id]
         );
 
         return result.rowCount;

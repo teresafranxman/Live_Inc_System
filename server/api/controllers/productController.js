@@ -34,9 +34,9 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity } = req.body;
+        const { name, productImg, description, price, quantity, rating } = req.body;
 
-        if (!name || price == null || quantity == null) {
+        if (!name || price == null || quantity == null || rating == null) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
@@ -49,7 +49,8 @@ export const createProduct = async (req, res) => {
             productImg,
             description,
             price,
-            quantity
+            quantity,
+            rating
         });
 
         res.status(201).json({ id });
@@ -61,21 +62,22 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity } = req.body;
+        const { name, productImg, description, price, quantity, rating } = req.body;
 
         const updated = await Product.update(req.params.id, {
             name,
             productImg,
             description,
             price,
-            quantity
+            quantity,
+            rating
         });
 
         if (!updated) {
             return res.status(400).json({ error: "Product not found" });
         }
 
-        if (!name || price == null || quantity == null) {
+        if (!name || price == null || quantity == null || rating == null) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
