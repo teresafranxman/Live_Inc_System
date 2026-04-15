@@ -1,16 +1,12 @@
 // Order Routes for Order API
 
 import express from "express";
-import {
-    getOrders,
-    getOrder,
-    createOrder,
-} from "../controllers/orderController.js";
+import { getOrder, createOrder } from "../controllers/orderController.js";
+import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/:", getOrders);
-router.get("/:id", getOrder);
-router.post("/", createOrder);
+router.post("/orders", authenticate, createOrder);
+router.get("/orders", authenticate, getOrder);
 
 export default router;

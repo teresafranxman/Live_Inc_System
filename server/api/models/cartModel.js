@@ -3,34 +3,19 @@
 import { db } from "../config/db.js";
 
 export const Cart = {
-    getById: async (id) => {
-        const [rows] = await db.query("SELECT * FROM cart WHERE CustomerID = ?", [id]);
-        return rows[0];
-    },
+    getOrCreateCart: async (customerId) => {
+        const [rows] = await db.query(
+            "SELECT * FROM carts WHERE CustomerID=?",
+            [customerId]
+        );
 
-    create: async (cart) => {
-        const { ProductID, CustomerID } = cart;
+        if (rows.length > 0) return rows[0];
 
         const [result] = await db.query(
-            `INSERT INTO cart (ProductID, CustomerID)
-             VALUES (?, ?)`,
-            [ProductID, CustomerID]
+            "INSERT INTO carts (CustomerID) VALUES (?)",
+            [customerId]
         );
 
-        return result.insertId;
-    },
-
-    update: async (id, cart) => {
-        const { ProductID, CustomerID } = cart;
-
-        await db.query(
-            `UPDATE cart SET ProductID=?, CustomerID=?
-             WHERE CartID=?`
-            [ProductID, CustomerID, id]
-        );
-    },
-
-    delete: async (id) => {
-        await db.query("DELETE FROM cart WHERE CartID = ?", [id]);
+        return { CartID: result.insertId, CustomerID: customerId };
     }
-}
+};
