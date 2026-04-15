@@ -17,6 +17,10 @@ app.get("/db-check", async (req, res) => {
   res.json(result.rows);
 });
 
-app.listen(PORT, () => {
+app.get("/", (req, res) => {
+    res.send("API is now accessible on the LAN!");
+});
+
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
 });
