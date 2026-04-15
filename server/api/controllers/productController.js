@@ -34,24 +34,24 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity, rating } = req.body;
-
-        if (!name || price == null || quantity == null || rating == null) {
+        console.log('Request body:', req.body);
+        console.log('Name: ' + req.body.Name);
+        if (!req.body.Name || req.body.Price == null || req.body.Quantity == null || req.body.Rating == null) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
-        if (price < 0 || quantity < 0) {
+        if (req.body.Price < 0 || req.body.Quantity < 0) {
             return res.status(400).json({ error: "Invalid price or quantity" });
         }
 
-        const id = await Product.create({
-            name,
-            productImg,
-            description,
-            price,
-            quantity,
-            rating
-        });
+        const id = await Product.create(
+            req.body.Name,
+            req.body.ProductImg,
+            req.body.Description,
+            req.body.Price,
+            req.body.Quantity,
+            req.body.Rating
+        );
 
         res.status(201).json({ id });
 

@@ -5,37 +5,32 @@ import { db } from "../config/db.js";
 export const Product = {
     getAll: async () => {
         const result = await db.query(
-            `SELECT "ProductID", name, "productImg", description, price, quantity, rating
-             FROM products`
+            `SELECT "ProductID", "Name", "ProductImg", "Description", "Price", "Quantity", "Rating"
+             FROM "Product"`
         );
         return result.rows;
     },
 
     getById: async (id) => {
         const result = await db.query(
-            `SELECT "ProductID", name, "productImg", description, price, quantity, rating
-             FROM products
+            `SELECT "ProductID", "Name", "ProductImg", "Description", "Price", "Quantity", "Rating"
+             FROM "Product"
              WHERE "ProductID" =$1`,
             [id]
         );
         return result.rows[0];
     },
 
-    create: async (product) => {
-        const {
-            name,
-            productImg,
-            description,
-            price,
-            quantity,
-            rating
-        } = product;
+    create: async (Name, ProductImg, Description, Price, Quantity, Rating) => {
+        if (!Name || Price == null || Quantity == null || Rating == null) {
+            throw new Error("Missing required fields");
+        }
 
         const result = await db.query(
-            `INSERT INTO products (name, "productImg", description, price, quantity, rating)
+            `INSERT INTO "Product" ("Name", "ProductImg", "Description", "Price", "Quantity", "Rating")
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING "ProductID"`,
-            [name, productImg, description, price, quantity, rating]
+            [Name, ProductImg, Description, Price, Quantity, Rating]
         );
 
         return result.rows[0].ProductID;
@@ -52,8 +47,8 @@ export const Product = {
         } = product;
 
         const result = await db.query(
-            `UPDATE products 
-             SET name=$1, "productImg"=$2, description=$3, price=$4, quantity=$5, rating=$6
+            `UPDATE "Product" 
+             SET "Name"=$1, "ProductImg"=$2, "Description"=$3, "Price"=$4, "Quantity"=$5, "Rating"=$6
              WHERE "ProductID"=$7`,
             [name, productImg, description, price, quantity, rating, id]
         );
@@ -63,7 +58,7 @@ export const Product = {
 
     delete: async (id) => {
         const result = await db.query(
-            `DELETE FROM products WHERE "ProductID" = $1`,
+            `DELETE FROM "Product" WHERE "ProductID" = $1`,
             [id]
         );
 
