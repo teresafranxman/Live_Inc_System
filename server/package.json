@@ -5,9 +5,9 @@
   "main": "./server/api/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server/api/server.js",
-    "dev": "nodemon ./server/api/server.js",
-    "test-conn": "node ./server/api/test.js"
+    "start": "node ./api/server.js",
+    "dev": "nodemon ./api/server.js",
+    "test-conn": "node ./api/test.js"
   },
   "keywords": [],
   "author": "",
