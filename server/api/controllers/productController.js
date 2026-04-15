@@ -4,11 +4,11 @@ import { Product } from "../models/productModel.js";
 
 export const getProducts = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
+        // const page = parseInt(req.query.page) || 1;
+        // const limit = parseInt(req.query.limit) || 10;
+        // const offset = (page - 1) * limit;
 
-        const products = await Product.getAllPaginated(limit, offset);
+        const products = await Product.getAll();
 
         res.json(products);
 
@@ -34,23 +34,22 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity } = req.body;
+        const { name, description, price, quantity } = req.body;
+
+        if (!name || price == null || quantity == null) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        if (price < 0 || quantity < 0) {
+            return res.status(400).json({ error: "Invalid price or quantity" });
+        }
 
         const id = await Product.create({
             name,
-            productImg,
             description,
             price,
             quantity
         });
-
-        if (price < 0) {
-            return res.status(400).json({ error: "Price cannot be negative" });
-        }
-
-        if (quantity < 0) {
-            return res.status(400).json({ error: "Quantity cannot be negative" });
-        }
 
         res.status(201).json({ id });
 
@@ -61,22 +60,25 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity } = req.body;
+        const { name, description, price, quantity } = req.body;
 
-        await Product.update(req.params.id, {
+        const updated = await Product.update(req.params.id, {
             name,
-            productImg,
             description,
             price,
             quantity
         });
 
-        if (price < 0) {
-            return res.status(400).json({ error: "Price cannot be negative" });
+        if (!updated) {
+            return res.status(400).json({ error: "Product not found" });
         }
 
-        if (quantity < 0) {
-            return res.status(400).json({ error: "Quantity cannot be negative" });
+        if (!name || price == null || quantity == null) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        if (price < 0 || quantity < 0) {
+            return res.status(400).json({ error: "Price or quantity cannot be negative" });
         }
 
         res.sendStatus(200);
@@ -87,11 +89,15 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-    const result = await Product.delete(req.params.id);
+    try {
+        const deleted = await Product.delete(req.params.id);
 
-    if (!result.affectedRows) {
-        return res.status(404).json({ error: "Product not found" });
+        if (!deleted) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        res.sendStatus(204);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
-    res.sendStatus(204);
 }

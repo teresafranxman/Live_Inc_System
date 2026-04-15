@@ -3,8 +3,8 @@
 import express from "express";
 import productRoutes from "./routes/productRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
-import orderRoutes from "./routes/order.routes.js";
-import authRoutes from "./routes/auth.routes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
