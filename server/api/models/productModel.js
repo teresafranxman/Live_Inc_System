@@ -5,7 +5,7 @@ import { db } from "../config/db.js";
 export const Product = {
     getAll: async () => {
         const result = await db.query(
-            `SELECT "ProductID", "Name", "ProductImg", "Description", "Price", "Quantity", "Rating"
+            `SELECT "ProductID", "ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating"
              FROM "Product"`
         );
         return result.rows;
@@ -13,47 +13,48 @@ export const Product = {
 
     getById: async (id) => {
         const result = await db.query(
-            `SELECT "ProductID", "Name", "ProductImg", "Description", "Price", "Quantity", "Rating"
+            `SELECT "ProductID", "ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating"
              FROM "Product"
              WHERE "ProductID" =$1`,
             [id]
         );
-        return result.rows[0];
+        return result.rows;
     },
 
-    create: async (Name, ProductImg, Description, Price, Quantity, Rating) => {
-        if (!Name || Price == null || Quantity == null || Rating == null) {
-            throw new Error("Missing required fields");
-        }
-
+    create: async ({ ProductName, ProductImg, Description, Price, Quantity, Rating }) => {
         const result = await db.query(
-            `INSERT INTO "Product" ("Name", "ProductImg", "Description", "Price", "Quantity", "Rating")
+            `INSERT INTO "Product" ("ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating")
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING "ProductID"`,
-            [Name, ProductImg, Description, Price, Quantity, Rating]
+            [ProductName, ProductImg, Description, Price, Quantity, Rating]
         );
-
-        return result.rows[0].ProductID;
+        return result.rows;
     },
 
     update: async (id, product) => {
+
         const {
-            name,
-            productImg,
-            description,
-            price,
-            quantity,
-            rating
+            ProductName,
+            ProductImg,
+            Description,
+            Price,
+            Quantity,
+            Rating
         } = product;
+
+        if (!ProductName || Price == null || Quantity == null || Rating == null) {
+            throw new Error("Missing required fields");
+        }
+
 
         const result = await db.query(
             `UPDATE "Product" 
-             SET "Name"=$1, "ProductImg"=$2, "Description"=$3, "Price"=$4, "Quantity"=$5, "Rating"=$6
+             SET "ProductName"=$1, "ProductImg"=$2, "Description"=$3, "Price"=$4, "Quantity"=$5, "Rating"=$6
              WHERE "ProductID"=$7`,
-            [name, productImg, description, price, quantity, rating, id]
+            [ProductName, ProductImg, Description, Price, Quantity, Rating, id]
         );
 
-        return result.rowCount;
+        return result.rows;
     },
 
     delete: async (id) => {
