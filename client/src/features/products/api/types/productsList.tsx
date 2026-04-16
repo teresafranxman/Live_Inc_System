@@ -1,5 +1,5 @@
 import type { Product } from "./product.type";
-import { DoofRobot, ShrinkanatorRGBA } from "../../../../assets";
+import { DoofRobot, ShrinkanatorRGBA, DryItOffInator } from "../../../../assets";
 
 export const productsList: Product[] = [
   {
@@ -45,6 +45,25 @@ export const productsList: Product[] = [
         comment:
           "The Shrinkanator is amazing! It has made my life so much easier when it comes to storage.",
         rating: 4,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Dry-It-Off-Inator",
+    price: 19999.99,
+    description:
+      "The dry-it-off-inator is a revolutionary device that allows you to dry your clothes without the need for any water.",
+    category: "inator",
+    image: [`${DryItOffInator}`],
+    rating: 5,
+    count: 4,
+    reviews: [
+      {
+        id: 1,
+        name: "Alice Johnson",
+        comment: "The dry-it-off-inator is amazing! It has made my life so much easier when it comes to getting ready!",
+        rating: 5
       },
     ],
   },
