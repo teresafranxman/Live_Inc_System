@@ -1,12 +1,12 @@
-import { Routes, Route } from "react-router";
-
+import { AppRoutes } from "./routes";
+import { Navbar } from "../components/AppShell";
 
 function App() {
   return (
-    <Routes>
-      <Route index />
-      {/* <Route path="/products" element={<Products />} /> */}
-    </Routes>
+    <>
+      <Navbar />
+      <AppRoutes />
+    </>
   );
 }
 
