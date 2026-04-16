@@ -12,7 +12,7 @@ import {
 import { authenticate } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
-router.use(authenticate);
+// router.use(authenticate);
 
 router.get("/", getCart);
 router.post("/add", addToCart);
