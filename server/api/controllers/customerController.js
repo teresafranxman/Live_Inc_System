@@ -41,7 +41,8 @@ export const createCustomer = async (req, res) => {
             PhoneNumber: req.body.PhoneNumber,
             Street: req.body.Street,
             City: req.body.City,
-            State: req.body.ZipCode
+            State: req.body.State,
+            ZipCode: req.body.ZipCode
         });
 
         res.status(201).location(`/customers/${created.id}`).json(created);
