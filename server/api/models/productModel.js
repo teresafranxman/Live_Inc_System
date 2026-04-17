@@ -23,7 +23,8 @@ export const Product = {
 
     create: async ({ ProductName, ProductImg, Description, Price, Quantity, Rating }) => {
         const result = await db.query(
-            `INSERT INTO "Product" ("ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating")
+            `INSERT INTO "Product" 
+            ("ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating")
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING "ProductID"`,
             [ProductName, ProductImg, Description, Price, Quantity, Rating]
@@ -32,7 +33,6 @@ export const Product = {
     },
 
     update: async (id, product) => {
-
         const {
             ProductName,
             ProductImg,
@@ -45,7 +45,6 @@ export const Product = {
         if (!ProductName || Price == null || Quantity == null || Rating == null) {
             throw new Error("Missing required fields");
         }
-
 
         const result = await db.query(
             `UPDATE "Product" 
