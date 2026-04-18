@@ -4,76 +4,73 @@ import { db } from "../config/db.js";
 
 export const Customer = {
     getAll: async () => {
-        const [rows] = await db.query(
-            "SELECT CustomerID, firstName, lastName, email, contactNumber, street, city, state, zipcode FROM customers"
+        const result = await db.query(
+            `SELECT "CustomerID", "FirstName", "LastName", "Email", "Password", "PhoneNumber", "Street", "City", "State", "ZipCode"
+             FROM "Customer"`
         );
-        return rows;
+        return result.rows;
     },
 
     getById: async (id) => {
-        const [rows] = await db.query(
-            `SELECT CustomerID, firstName, lastName, email, contactNumber, street, city, state, zipcode
-             FROM customers
-             WHERE CustomerID = ?`,
+        const result = await db.query(
+            `SELECT "CustomerID", "FirstName", "LastName", "Email", "Password", "PhoneNumber", "Street", "City", "State", "ZipCode"
+             FROM "Customer"
+             WHERE "CustomerID" = $1`,
             [id]
         );
-        return rows[0];
+        return result.rows;
     },
 
-    getByEmail: async (email) => {
-        const [rows] = await db.query(
-            "SELECT * FROM customers WHERE email = ?",
-            [email]
-        );
-        return rows[0];
-    },
+    // getByEmail: async (email) => {
+    //     const [rows] = await db.query(
+    //         "SELECT * FROM customers WHERE email = ?",
+    //         [email]
+    //     );
+    //     return rows[0];
+    // },
 
-    create: async (customer) => {
-        const {
-            firstName,
-            lastName,
-            email,
-            password, // assume already hashed
-            contactNumber,
-            street,
-            city,
-            state,
-            zipcode
-        } = customer;
-
-        const [result] = await db.query(
-            `INSERT INTO customers 
-            (firstName, lastName, email, password, contactNumber, street, city, state, zipcode)
+    create: async ({ FirstName, LastName, Email, Password, PhoneNumber, Street, City, State, ZipCode }) => {
+        const result = await db.query(
+            `INSERT INTO "Customer" 
+            ("FirstName", "LastName", "Email", "Password", "PhoneNumber", "Street", "City", "State", "ZipCode")
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [firstName, lastName, email, password, contactNumber, street, city, state, zipcode]
+            [FirstName, LastName, Email, Password, PhoneNumber, Street, City, State, ZipCode]
         );
-
-        return result.insertId;
+        return result.rows;
     },
 
     update: async (id, customer) => {
         const {
-            firstName,
-            lastName,
-            contactNumber,
-            street,
-            city,
-            state,
-            zipcode
+            FirstName,
+            LastName,
+            Password,
+            PhoneNumber,
+            Street,
+            City,
+            State,
+            ZipCode
         } = customer;
 
-        await db.query(
-            `UPDATE customers 
-             SET firstName=?, lastName=?, contactNumber=?, street=?, city=?, state=?, zipcode=? 
-             WHERE CustomerID=?`,
-            [firstName, lastName, contactNumber, street, city, state, zipcode, id]
+        if (!FirstName || !LastName || !Password || PhoneNumber == null || !Street || !City || !State || ZipCode == null) {
+            throw new Error("Missing required fields");
+        }
+
+        const result = await db.query(
+            `UPDATE "Customer" 
+             SET "FirstName"=$1, "LastName=$2, "Password"=$3 "PhoneNumber"=$4, "Street"=$5, "City"=$6, "State"=$7, "ZipCode"=$8
+             WHERE "CustomerID"=$9`,
+            [FirstName, LastName, Password, PhoneNumber, Street, City, State, ZipCode, id]
         );
+
+        return result.rows;
     },
 
     delete: async (id) => {
-        await db.query(
-            "DELETE FROM customers WHERE CustomerID = ?",
+        const result = await db.query(
+            `DELETE FROM Customer WHERE "CustomerID" = $1`,
             [id]
         );
+
+        return result.rowCount;
     }
 }

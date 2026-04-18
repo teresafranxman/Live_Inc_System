@@ -5,6 +5,7 @@ import { Customer } from "../models/customerModel.js";
 export const getCustomers = async (req, res) => {
     try {
         const customers = await Customer.getAll();
+
         res.json(customers);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -28,22 +29,23 @@ export const getCustomer = async (req, res) => {
 
 export const createCustomer = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, contactNumber, address } = req.body;
-
-        const id = await Customer.create({
-            firstName,
-            lastName,
-            email,
-            password,
-            contactNumber,
-            address
-        });
-
-        if (!email || !password) {
-            return res.status(400).json({ error: "Missing fields" });
+        if (!req.body.FirstName || !req.body.LastName || !req.body.Email || !req.body.Password || !req.body.PhoneNumber || !req.body.Street || !req.body.City || !req.body.State || !req.body.ZipCode) {
+            return res.status(400).json({ error: "Missing required fields" });
         }
 
-        res.status(201).json({ id });
+        const created = await Customer.create({
+            FirstName: req.body.FirstName,
+            LastName: req.body.LastName,
+            Email: req.body.Email,
+            Password: req.body.Password,
+            PhoneNumber: req.body.PhoneNumber,
+            Street: req.body.Street,
+            City: req.body.City,
+            State: req.body.State,
+            ZipCode: req.body.ZipCode
+        });
+
+        res.status(201).location(`/customers/${created.id}`).json(created);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -52,26 +54,37 @@ export const createCustomer = async (req, res) => {
 
 export const updateCustomer = async (req, res) => {
     try {
-        const { firstName, lastName, contactNumber, address } = req.body;
+        const { FirstName, LastName, Email, Password, PhoneNumber, Street, City, State, ZipCode } = req.body;
 
-        await Customer.update(req.params.id, {
-            firstName,
-            lastName,
-            contactNumber,
-            address
+        const updated = await Customer.update(req.params.id, {
+            FirstName,
+            LastName,
+            Email,
+            Password,
+            PhoneNumber,
+            Street,
+            City,
+            State,
+            ZipCode
         });
 
-        res.sendStatus(200);
+        res.sendStatus(200).json(updated);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
-    }
+    };
 };
 
 export const deleteCustomer = async (req, res) => {
     try {
-        await Customer.delete(req.params.id);
-        res.sendStatus(204);
+        const deleted = await Customer.delete(req.params.id);
+
+        if (!deleted) {
+            return res.status(404).json({ error: "Customer not found." })
+        }
+
+        res.sendStatus(204).end();
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

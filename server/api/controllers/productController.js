@@ -4,14 +4,9 @@ import { Product } from "../models/productModel.js";
 
 export const getProducts = async (req, res) => {
     try {
-        // const page = parseInt(req.query.page) || 1;
-        // const limit = parseInt(req.query.limit) || 10;
-        // const offset = (page - 1) * limit;
-
         const products = await Product.getAll();
 
         res.json(products);
-
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -34,26 +29,24 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity, rating } = req.body;
-
-        if (!name || price == null || quantity == null || rating == null) {
+        if (!req.body.ProductName || req.body.Price == null || req.body.Quantity == null || req.body.Rating == null) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
-        if (price < 0 || quantity < 0) {
+        if (req.body.Price < 0 || req.body.Quantity < 0) {
             return res.status(400).json({ error: "Invalid price or quantity" });
         }
 
-        const id = await Product.create({
-            name,
-            productImg,
-            description,
-            price,
-            quantity,
-            rating
+        const created = await Product.create({
+            ProductName: req.body.ProductName,
+            ProductImg: req.body.ProductImg,
+            Description: req.body.Description,
+            Price: req.body.Price,
+            Quantity: req.body.Quantity,
+            Rating: req.body.Rating
         });
 
-        res.status(201).json({ id });
+        res.status(201).location(`/products/${created.id}`).json(created);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -62,34 +55,21 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { name, productImg, description, price, quantity, rating } = req.body;
-
+        const { ProductName, ProductImg, Description, Price, Quantity, Rating } = req.body;
         const updated = await Product.update(req.params.id, {
-            name,
-            productImg,
-            description,
-            price,
-            quantity,
-            rating
+            ProductName,
+            ProductImg,
+            Description,
+            Price,
+            Quantity,
+            Rating
         });
 
-        if (!updated) {
-            return res.status(400).json({ error: "Product not found" });
-        }
-
-        if (!name || price == null || quantity == null || rating == null) {
-            return res.status(400).json({ error: "Missing required fields" });
-        }
-
-        if (price < 0 || quantity < 0) {
-            return res.status(400).json({ error: "Price or quantity cannot be negative" });
-        }
-
-        res.sendStatus(200);
+        res.sendStatus(200).json(updated);
 
     } catch (err) {
         res.status(500).json({ error: err.message });
-    }
+    };
 };
 
 export const deleteProduct = async (req, res) => {
@@ -100,7 +80,8 @@ export const deleteProduct = async (req, res) => {
             return res.status(404).json({ error: "Product not found" });
         }
 
-        res.sendStatus(204);
+        res.sendStatus(204).end();
+        
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
