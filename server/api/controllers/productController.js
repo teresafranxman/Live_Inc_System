@@ -56,6 +56,7 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const { ProductName, ProductImg, Description, Price, Quantity, Rating } = req.body;
+        
         const updated = await Product.update(req.params.id, {
             ProductName,
             ProductImg,

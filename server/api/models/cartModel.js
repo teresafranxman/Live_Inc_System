@@ -5,17 +5,20 @@ import { db } from "../config/db.js";
 export const Cart = {
     getOrCreateCart: async (customerId) => {
         const [rows] = await db.query(
-            "SELECT * FROM carts WHERE CustomerID=?",
+            `SELECT * FROM "Cart" WHERE "CustomerID"=$1`,
             [customerId]
         );
 
         if (rows.length > 0) return rows[0];
 
         const [result] = await db.query(
-            "INSERT INTO carts (CustomerID) VALUES (?)",
+            `INSERT INTO "Cart" 
+            ("CustomerID")
+             VALUES ($1)
+             RETURNING "CartID"`,
             [customerId]
         );
 
-        return { CartID: result.insertId, CustomerID: customerId };
+        return { CartID: result.rows[0].CartID, CustomerID: customerId };
     }
 };
