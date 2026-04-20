@@ -6,7 +6,7 @@ export const DisplayProducts = () => {
   const products = GetProducts();
 
   return (
-    <Box component="section" sx={{ display: "flex", gap: 2 }}>
+    <Box component="section" sx={{ display: "flex", gap: 2, }}>
       {products.map((product) => (
         <GenericCard
           key={product.id}
