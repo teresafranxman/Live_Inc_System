@@ -2,7 +2,6 @@
 
 import { db } from "../config/db.js";
 import { Cart } from "../models/cartModel.js";
-import { CartItem } from "../models/cartItemModel.js";
 import { Order } from "../models/orderModel.js";
 import { OrderItem } from "../models/orderItemModel.js";
 import { Product } from "../models/productModel.js";
@@ -10,14 +9,13 @@ import { Customer } from "../models/customerModel.js";
 
 export const getCart = async (req, res) => {
     try {
-        const CustomerID = req.params.id;
+        const { CustomerID } = req.query;
 
         const cart = await Cart.getOrCreateCart(CustomerID);
-        const cartItems = await CartItem.getCartItems(cart.CartID);
 
         res.json({
-            cartId: cart.CartID,
-            items: cartItems
+            CartID: cart.CartID,
+            items: cart.CartItems || []
         });
 
     } catch (err) {
@@ -27,30 +25,23 @@ export const getCart = async (req, res) => {
 
 export const addToCart = async (req, res) => {
     try {
-        const CustomerID = req.params.id;
-        const { ProductID, Quantity } = req.body;
+        const { CustomerID, ProductID, Quantity } = req.body;
 
         const cart = await Cart.getOrCreateCart(CustomerID);
+        let items = cart.CartItems || [];
 
-        const existing = await CartItem.findItem(
-            cart.CartID,
-            ProductID
-        );
+        // Check if item already exists
+        const existing = items.find(i => i.ProductID === ProductID);
 
         if (existing) {
-            await CartItem.updateQuantity(
-                existing.CartItemID,
-                existing.Quantity + Quantity
-            );
+            existing.Quantity += Quantity;
         } else {
-            await CartItem.addItem(
-                cart.CartID,
-                ProductID,
-                quantity
-            );
+            items.push({ ProductID, Quantity });
         }
 
-        res.json({ message: "Item added to cart" });
+        await Cart.updateCartItems(cart.CartID, items);
+
+        res.json({ message: "Item added to cart", items });
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -70,12 +61,19 @@ export const updateCartItem = async (req, res) => {
     }
 };
 
-export const removeCartItem = async (req, res) => {
+export const removeFromCart = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { CustomerID, ProductID } = req.body;
 
-        await CartItem.deleteItem(id);
-        res.json({ message: "Item removed" });
+        const cart = await Cart.getOrCreateCart(CustomerID);
+
+        let items = cart.CartItems.filter(
+            i => i.ProductID !== ProductID
+        );
+
+        await Cart.updateCartItems(cart.CartID, items);
+
+        res.json({ message: "Item removed", items });
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -84,10 +82,11 @@ export const removeCartItem = async (req, res) => {
 
 export const clearCart = async (req, res) => {
     try {
-        const customerId = req.user.id;
+        const { CustomerID } = req.body;
 
-        const cart = await Cart.getOrCreateCart(customerId);
-        await CartItem.clearCart(cart.CartID);
+        const cart = await Cart.getOrCreateCart(CustomerID);
+
+        await Cart.updateCartItems(cart.CartID, []);
 
         res.json({ message: "Cart cleared" });
 
@@ -97,79 +96,84 @@ export const clearCart = async (req, res) => {
 };
 
 export const checkout = async (req, res) => {
-    const conn = await db.getConnection();
-    await conn.beginTransaction();
+    const client = await db.connect();
 
     try {
-        const customerId = req.user.id;
-        // 1. Get Cart
-        const cart = await Cart.getOrCreateCart(customerId);
-        const items = await CartItem.getCartItems(cart.CartID);
+        await client.query("BEGIN");
+
+        const { CustomerID } = req.body;
+
+        // 1. Get cart
+        const cart = await Cart.getOrCreateCart(CustomerID);
+        const items = cart.CartItems || [];
 
         if (!items.length) {
-            return res.status(400).json({ error: "Cart is empty" });
+            throw new Error("Cart is empty");
         }
 
-        // 2. Create Order
-        const orderId = await Order.create(conn, customerId);
+        // 2. Create order
+        const OrderID = await Order.create(client, CustomerID);
 
         let total = 0;
 
-        // 3. Process Items
+        // 3. Process each item
         for (const item of items) {
             const product = await Product.getById(item.ProductID);
 
-            // 3.1. Check Product
             if (!product) {
-                throw new Error(`Product ${item.ProductID} not found`);
+                throw new Error("Product not found");
             }
 
-            // 3.2. Check Stock
-            if (product.quantity < item.Quantity) {
-                throw new Error(`Not enough stock for product ${product.name}`);
+            if (product.Quantity < item.Quantity) {
+                throw new Error(`Not enough stock for ${product.Name}`);
             }
 
-            const price = product.price;
+            const price = product.Price;
             const subtotal = price * item.Quantity;
             total += subtotal;
 
-            // 3.3. Create OrderItem
+            // Create order item
             await OrderItem.create(
-                conn,
-                orderId,
+                client,
+                OrderID,
                 item.ProductID,
                 item.Quantity,
                 price
             );
 
-            // 3.4. Reduce inventory
-            await conn.query(
-                `UPDATE products 
-                 SET quantity = quantity - ? 
-                 WHERE ProductID = ?`,
+            // Update stock (SAFE way)
+            const update = await client.query(
+                `UPDATE "Product"
+                 SET "Quantity" = "Quantity" - $1
+                 WHERE "ProductID" = $2
+                 AND "Quantity" >= $1`,
                 [item.Quantity, item.ProductID]
             );
+
+            if (update.rowCount === 0) {
+                throw new Error(`Stock conflict for ${product.Name}`);
+            }
         }
 
-        // 4. Update total
-        await Order.updateTotal(conn, orderId, total);
+        // 💰 4. Update total
+        await Order.updateTotal(client, OrderID, total);
 
-        // 5. Clear cart
-        await CartItem.clearCart(cart.CartID);
+        // 🧹 5. Clear cart
+        await Cart.updateCartItems(cart.CartID, []);
 
-        await conn.commit();
+        await client.query("COMMIT");
 
         res.status(201).json({
             message: "Checkout successful",
-            orderId,
+            OrderID,
             total
         });
 
     } catch (err) {
-        await conn.rollback();
+        await client.query("ROLLBACK");
         res.status(400).json({ error: err.message });
 
     } finally {
-        conn.release();
+        client.release();
     }
 };

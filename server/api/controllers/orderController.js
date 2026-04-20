@@ -9,7 +9,7 @@ import { Product } from "../models/productModel.js";
 export const getOrder = async (req, res) => {
     try {
         const order = await Order.getById(req.params.id);
-        const orderItems = await OrderItem.getByOrderId(req.params.id);
+        const orderItems = await OrderItem.getByOrderId(order.OrderID);
 
         res.json({
             ...order,
