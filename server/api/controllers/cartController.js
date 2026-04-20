@@ -9,14 +9,14 @@ import { Product } from "../models/productModel.js";
 
 export const getCart = async (req, res) => {
     try {
-        const customerId = req.user.id;
+        const CustomerID = req.params.id;
 
-        const cart = await Cart.getOrCreateCart(customerId);
-        const items = await CartItem.getCartItems(cart.CartID);
+        const cart = await Cart.getOrCreateCart(CustomerID);
+        const cartItems = await CartItem.getCartItems(cart.CartID);
 
         res.json({
             cartId: cart.CartID,
-            items
+            items: cartItems
         });
 
     } catch (err) {
@@ -26,25 +26,25 @@ export const getCart = async (req, res) => {
 
 export const addToCart = async (req, res) => {
     try {
-        const customerId = req.user.id;
-        const { productId, quantity } = req.body;
+        const CustomerID = req.params.id;
+        const { ProductID, Quantity } = req.body;
 
-        const cart = await Cart.getOrCreateCart(customerId);
+        const cart = await Cart.getOrCreateCart(CustomerID);
 
         const existing = await CartItem.findItem(
             cart.CartID,
-            productId
+            ProductID
         );
 
         if (existing) {
             await CartItem.updateQuantity(
                 existing.CartItemID,
-                existing.Quantity + quantity
+                existing.Quantity + Quantity
             );
         } else {
             await CartItem.addItem(
                 cart.CartID,
-                productId,
+                ProductID,
                 quantity
             );
         }
@@ -59,9 +59,9 @@ export const addToCart = async (req, res) => {
 export const updateCartItem = async (req, res) => {
     try {
         const { id } = req.params;
-        const { quantity } = req.body;
+        const { Quantity } = req.body;
 
-        await CartItem.updateQuantity(id, quantity);
+        await CartItem.updateQuantity(id, Quantity);
         res.json({ message: "Quantity updated" });
 
     } catch (err) {
