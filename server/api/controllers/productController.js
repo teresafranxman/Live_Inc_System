@@ -36,7 +36,7 @@ export const createProduct = async (req, res) => {
         if (req.body.Price < 0 || req.body.Quantity < 0) {
             return res.status(400).json({ error: "Invalid price or quantity" });
         }
-        if (!Array.isArray(ProductImg)) {
+        if (!Array.isArray(req.body.ProductImg)) {
             return res.status(400).json({ error: "ProductImg must be an array of image urls/links/paths." });
         }
 
@@ -52,6 +52,7 @@ export const createProduct = async (req, res) => {
         res.status(201).location(`/products/${created.id}`).json(created);
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: err.message });
     }
 };
@@ -59,7 +60,7 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const { ProductName, ProductImg, Description, Price, Quantity, Rating } = req.body;
-        
+
         const updated = await Product.update(req.params.id, {
             ProductName,
             ProductImg,
@@ -85,7 +86,7 @@ export const deleteProduct = async (req, res) => {
         }
 
         res.sendStatus(204).end();
-        
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
