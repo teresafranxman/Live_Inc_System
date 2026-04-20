@@ -3,8 +3,12 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import cors from "cors";
+
 import app from "./index.js";
 import { db } from "./config/db.js";
+
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,8 +17,8 @@ db.query("SELECT NOW()")
     .catch(err => console.error("DB connection error:", err));
 
 app.get("/db-check", async (req, res) => {
-  const result = await db.query("SELECT current_database()");
-  res.json(result.rows);
+    const result = await db.query("SELECT current_database()");
+    res.json(result.rows);
 });
 
 app.get("/", (req, res) => {
