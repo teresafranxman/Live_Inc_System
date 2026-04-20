@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { GenericCard } from "../../components";
-import { getProducts } from "./api/getProducts";
+import { GetProducts } from "./api/getProducts";
 
 export const DisplayProducts = () => {
-  const products = getProducts();
+  const products = GetProducts();
 
   return (
     <Box component="section" sx={{ display: "flex", gap: 2 }}>
@@ -12,7 +12,7 @@ export const DisplayProducts = () => {
           key={product.id}
           media={
             <img
-              src={product.image[0] || ""}
+              src={product.image?.[0] ?? ""}
               alt={product.title}
               style={{ height: "300px", background: "#fbfbfb" }}
             />

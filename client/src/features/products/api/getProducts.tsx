@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Product } from "./types/product.type";
 import { productsList } from "./types/productsList";
 
-export const getProducts = () => {
+export const GetProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {

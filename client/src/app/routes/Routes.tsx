@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { Home } from "../../components/AppShell";
+import { Home } from "../../features/landing/Home";
 import { ProductPage } from "../../features";
 
 export const AppRoutes = () => {

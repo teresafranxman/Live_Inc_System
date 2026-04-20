@@ -1,0 +1,11 @@
+.hero-banner {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.discover-card {
+    width: 100%;
+    
+}

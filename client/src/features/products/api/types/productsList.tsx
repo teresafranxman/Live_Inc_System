@@ -1,5 +1,10 @@
 import type { Product } from "./product.type";
-import { DoofRobot, ShrinkanatorRGBA, DryItOffInator } from "../../../../assets";
+import {
+  DoofRobot,
+  ShrinkanatorRGBA,
+  DryItOffInator,
+  Slowmotionator,
+} from "../../../../assets";
 
 export const productsList: Product[] = [
   {
@@ -67,4 +72,29 @@ export const productsList: Product[] = [
       },
     ],
   },
+  {
+    id: 4,
+    title: "Slowmotionator",
+    price: 19999.99,
+    description:
+      "The slowmotionator is a revolutionary device that allows you to slow down time for a brief moment.",
+    category: "inator",
+    image: [`${Slowmotionator}`],
+    rating: 4.5,
+    count: 3,
+    reviews: [
+      {
+        id: 1,
+        name: "Bob Wilson",
+        comment: "The slowmotionator is incredible! It's like having a time machine.",
+        rating: 5
+      },
+      {
+        id: 2,
+        name: "Emily Davis",
+        comment: "I can't believe how fast time goes when I use the slowmotionator.",
+        rating: 4
+      },
+    ],
+  }
 ];

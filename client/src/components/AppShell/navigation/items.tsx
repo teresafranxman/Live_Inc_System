@@ -15,17 +15,17 @@ export const iconList: NavItemProps[] = [
   {
     key: "favorites",
     href: "/favorites",
-    icon: <FavoriteBorderOutlined color="secondary" />,
+    icon: <FavoriteBorderOutlined sx={{color: "text.primary"}} />,
   },
   {
     key: "cart",
     href: "/cart",
-    icon: <ShoppingCartOutlined color="secondary" />,
+    icon: <ShoppingCartOutlined sx={{color: "text.primary"}} />,
   },
   {
     key: "signin",
     href: "/signin",
-    icon: <AccountCircleOutlined color="secondary" />,
+    icon: <AccountCircleOutlined sx={{color: "text.primary"}} />,
   },
 ];
 

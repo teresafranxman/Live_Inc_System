@@ -1,15 +1,12 @@
-import { ProductsFilter } from "./ProductsFilter";
+import { Container } from "@mui/material";
 import { DisplayProducts } from "./DisplayProducts";
-import { Box } from "@mui/material";
+import { ProductsFilter } from "./ProductsFilter";
 
 export const ProductPage = () => {
   return (
-    <Box
-      component="section"
-      sx={{ display: "flex", gap: "4rem", marginTop: "5rem" }}
-    >
+    <Container maxWidth="xl" sx={{ display: "flex", gap: 4, marginTop: "5rem"}}>
       <ProductsFilter />
       <DisplayProducts />
-    </Box>
+    </Container>
   );
 };

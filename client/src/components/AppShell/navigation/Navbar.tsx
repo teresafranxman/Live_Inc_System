@@ -5,18 +5,45 @@ import { Link as RouterLink } from "react-router";
 
 export const Navbar = () => {
   return (
-    <AppBar position="fixed" aria-label="navbar" sx={{ height: "4rem", justifyContent: 'center' }}>
-      <Container maxWidth="xl" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <RouterLink to="/" style={{ textDecoration: 'none', color: '#000000de' }}>
+    <AppBar
+      position="fixed"
+      aria-label="navbar"
+      sx={{ height: "4rem", justifyContent: "center" }}
+    >
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <RouterLink to="/" style={{ textDecoration: "none", color: "#1D1B20" }}>
           <Typography
-            sx={{ fontSize: '1rem', fontWeight: 'fontWeightBold', display: 'flex', alignItems: 'center', gap: 1 }}>
-            <img src={LiveIncLogo} alt="Live Inc." style={{ height: '26px' }} />
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "fontWeightBold",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <img src={LiveIncLogo} alt="Live Inc." style={{ height: "26px" }} />
             Live, Inc.
           </Typography>
         </RouterLink>
         <Stack spacing={2} direction="row">
           {navItemList.map((item) => (
-            <RouterLink key={item.key} aria-label={item.key} style={{ textDecoration: 'none', color: '#000000de' }} to={item.href}>
+            <RouterLink
+              key={item.key}
+              aria-label={item.key}
+              style={{
+                textDecoration: "none",
+                color: "#625B71",
+                fontSize: "14px",
+              }}
+              to={item.href}
+            >
               {item.label}
             </RouterLink>
           ))}
@@ -24,9 +51,7 @@ export const Navbar = () => {
         <Stack direction="row" spacing={2}>
           {iconList.map((item) => (
             <RouterLink key={item.key} aria-label={item.key} to={item.href}>
-              <IconButton color="secondary">
-                {item.icon}
-              </IconButton>
+              <IconButton aria-label={item.key}>{item.icon}</IconButton>
             </RouterLink>
           ))}
         </Stack>
