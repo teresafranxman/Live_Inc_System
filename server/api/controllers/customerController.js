@@ -48,6 +48,7 @@ export const createCustomer = async (req, res) => {
         res.status(201).location(`/customers/${created.id}`).json(created);
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: err.message });
     }
 };
