@@ -36,6 +36,9 @@ export const createProduct = async (req, res) => {
         if (req.body.Price < 0 || req.body.Quantity < 0) {
             return res.status(400).json({ error: "Invalid price or quantity" });
         }
+        if (!Array.isArray(ProductImg)) {
+            return res.status(400).json({ error: "ProductImg must be an array of image urls/links/paths." });
+        }
 
         const created = await Product.create({
             ProductName: req.body.ProductName,
