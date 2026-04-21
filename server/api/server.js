@@ -8,7 +8,7 @@ import cors from "cors";
 import app from "./index.js";
 import { db } from "./config/db.js";
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 const PORT = process.env.PORT || 5000;
 
