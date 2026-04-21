@@ -16,9 +16,9 @@ export const Cart = {
         const newCart = await db.query(
             `INSERT INTO "Cart"
              ("CustomerID", "CartItems")
-             VALUES ($1, '[]')
+             VALUES ($1, $2)
              RETURNING *`,
-            [CustomerID]
+            [CustomerID, JSON.stringify([])]
         );
 
         return newCart.rows[0];
@@ -30,7 +30,7 @@ export const Cart = {
             `UPDATE "Cart"
              SET "CartItems" = $1
              WHERE "CartID" = $2`,
-            [JSON.stringify(CartItems), CartID]
+            [CartID, JSON.stringify([CartItems])]
         );
     }
 };

@@ -34,9 +34,9 @@ export const addToCart = async (req, res) => {
         const existing = items.find(i => i.ProductID === ProductID);
 
         if (existing) {
-            existing.Quantity += Quantity;
+            existing.CartItems += Quantity;
         } else {
-            items.push({ ProductID, Quantity });
+            items.push({ ProductID, CartItems });
         }
 
         await Cart.updateCartItems(cart.CartID, items);
