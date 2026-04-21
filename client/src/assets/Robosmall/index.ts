@@ -1,5 +1,6 @@
-export { default as Robosmall1 } from './Robosmall1.png';
-export { default as Robosmall2 } from './Robosmall2.png';
-export { default as Robosmall3 } from './Robosmall3.png';
-export { default as Robosmall4 } from './Robosmall4.png';
-export { default as Robosmall5 } from './Robosmall5.png';
+export { default as Robosmall1 } from './Robot1.png';
+export { default as Robosmall2 } from './Robot2.png';
+export { default as Robosmall3 } from './Robot3.png';
+export { default as Robosmall4 } from './Robot4.png';
+export { default as Robosmall5 } from './Robot5.png';
+

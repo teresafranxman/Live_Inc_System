@@ -9,7 +9,7 @@ export const CardItems: Product[] = [
         id: 1,
         image: [`${Slowmotionator1}`],
         category: "inator",
-        title: "Slowmotionator",
+        title: "Slowmotion-ator",
         price: 19999.99
     },
     {
@@ -23,7 +23,7 @@ export const CardItems: Product[] = [
         id: 3,
         image: [`${Shrinkinator1}`],
         category: "inator",
-        title: "Shrinkanator",
+        title: "Shrink-inator",
         price: 30000
     },
     {   id: 4,

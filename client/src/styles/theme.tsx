@@ -7,7 +7,8 @@ export const theme = createTheme({
       main: "#fff",
     },
     secondary: {
-      main: deepPurple["A200"],
+      main: deepPurple['A200'],
+      light: deepPurple[50],
     },
     text: {
       primary: "#4A4459",
@@ -46,27 +47,46 @@ export const theme = createTheme({
     fontWeightMedium: 500,
     fontWeightBold: 800,
     h1: {
-      fontSize: 68,
-      fontWeight: 600,
+      fontSize: 80,
+      fontWeight: 700,
     },
     h2: {
       fontSize: 36,
-      fontWeight: 500,
+      fontWeight: 600,
+      color: "#4A4459",
     },
     h3: {
       fontSize: 28,
-      fontWeight: 400,
+      fontWeight: 600,
+    },
+    h4: {
+      fontSize: 24,
+      fontWeight: 600,
+      color: "#4A4459",
+    },
+    h5: {
+      fontSize: 20,
+      fontWeight: 600,
     },
     subtitle1: {
       fontSize: 18,
       fontWeight: 400,
+      color: "#625B71",
+    },
+    subtitle2: {
+      fontSize: 16,
+      fontWeight: 400,
+      color: "#625B71",
     },
     body1: {
       fontSize: 14,
+      fontWeight: 500,
       color: "#625B71",
     },
     body2: {
       fontSize: 12,
+      fontWeight: 600,
+      color: "#625B71",
     },
   },
 });

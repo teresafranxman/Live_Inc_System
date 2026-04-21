@@ -1,12 +1,21 @@
 import { Box, Typography } from "@mui/material";
 import { GenericCard } from "../../components";
-import { GetProducts } from "./api/getProducts";
+import { GetProducts } from "./api/useProductsApi";
 
 export const DisplayProducts = () => {
   const products = GetProducts();
 
   return (
-    <Box component="section" sx={{ display: "flex", gap: 2, }}>
+    <Box
+      component="section"
+      sx={{
+        width: "100%",
+        display: "inline-grid",
+        rowGap: "14px",
+        columnGap: "14px",
+        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+      }}
+    >
       {products.map((product) => (
         <GenericCard
           key={product.id}
@@ -18,11 +27,21 @@ export const DisplayProducts = () => {
             />
           }
           content={
-            <Box component="div">
-              <Typography>{product.title}</Typography>
-              <Typography>{product.category}</Typography>
+            <Box
+              component="div"
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "end",
+              }}
+            >
               <Box component="div">
-                <Typography>{product.price}</Typography>
+                <Typography variant="body1">{product.title}</Typography>
+                <Typography variant="body2">{product.category}</Typography>
+              </Box>
+              <Box component="div">
+                <Typography variant="body1">{product.price}</Typography>
               </Box>
             </Box>
           }

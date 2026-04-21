@@ -15,17 +15,29 @@ export const iconList: NavItemProps[] = [
   {
     key: "favorites",
     href: "/favorites",
-    icon: <FavoriteBorderOutlined sx={{color: "text.primary"}} />,
+    icon: (
+      <FavoriteBorderOutlined
+        sx={{ color: "text.primary" }}
+        fontSize="small"
+      />
+    ),
   },
   {
     key: "cart",
     href: "/cart",
-    icon: <ShoppingCartOutlined sx={{color: "text.primary"}} />,
+    icon: (
+      <ShoppingCartOutlined sx={{ color: "text.primary" }} fontSize="small" />
+    ),
   },
   {
     key: "signin",
     href: "/signin",
-    icon: <AccountCircleOutlined sx={{color: "text.primary"}} />,
+    icon: (
+      <AccountCircleOutlined
+        sx={{ color: "text.primary" }}
+        fontSize="small"
+      />
+    ),
   },
 ];
 

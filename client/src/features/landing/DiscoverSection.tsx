@@ -2,19 +2,23 @@ import { Box, Typography } from "@mui/material";
 import { GenericCard } from "../../components";
 import { CardItems } from "./types/items";
 
-export const PowerUpSection = () => {
+export const DiscoverSection = () => {
   return (
     <Box
       component="section"
       className="discover-section"
-      sx={{ display: "flex", flexDirection: "column", gap: 4 }}
+      sx={{ display: "flex", flexDirection: "column", gap: 5 }}
     >
-      <Box component="header" className="discover-header">
+      <Box
+        component="header"
+        className="discover-header"
+        sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+      >
         <Typography variant="h2" className="discover-title">
-          Power up with inators
+          Discover Inators
         </Typography>
         <Typography
-          variant="body1"
+          variant="subtitle2"
           className="discover-description"
           color="text.secondary"
         >
@@ -46,8 +50,17 @@ export const PowerUpSection = () => {
                   <Typography variant="body1">{product.title}</Typography>
                   <Typography variant="body2">{product.category}</Typography>
                 </Box>
-                <Box component="div">
-                  <Typography>{product.price}</Typography>
+                <Box component="div" sx={{ textAlign: "right" }}>
+                  <Typography
+                    variant="body2"
+                    color="text.primary"
+                    sx={{ textDecoration: "line-through" }}
+                  >
+                    ${(product.price ? product.price * 0.3 : 0).toFixed(2)}
+                  </Typography>
+                  <Typography variant="body2" color="secondary">
+                    ${product.price?.toFixed(2)}
+                  </Typography>
                 </Box>
               </Box>
             }

@@ -1,7 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
-import { DoofRobot } from "../../assets";
+import { Robosmall2 } from "../../assets/Robosmall";
+import { useNavigate } from "react-router";
 
 export const HeroBanner = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -23,7 +26,10 @@ export const HeroBanner = () => {
           width: "50%",
         }}
       >
-        <Box component="div" sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Box
+          component="div"
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
           <Typography variant="h1" color="text.primary">
             Experience The <br /> Art of Technology
           </Typography>
@@ -36,13 +42,14 @@ export const HeroBanner = () => {
           variant="contained"
           color="secondary"
           size="large"
-          sx={{ width: "fit-content", borderRadius: "0" }}
+          sx={{ width: "fit-content", borderRadius: "100px" }}
+          onClick={() => navigate("/products")}
         >
           Get Started
         </Button>
       </Box>
       <Box component="div" sx={{ width: "50%" }}>
-        <img src={DoofRobot} width="100%" />
+        <img src={Robosmall2} width="100%" />
       </Box>
     </Box>
   );

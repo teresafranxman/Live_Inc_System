@@ -1,7 +1,13 @@
-import { AppBar, Container, Typography, Stack, IconButton } from "@mui/material";
-import { iconList, navItemList } from "./items";
-import { LiveIncLogo } from "../../../assets";
+import {
+  AppBar,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router";
+import LiveIncLogo from "../../../assets/LiveIncLogo.svg";
+import { iconList, navItemList } from "./items";
 
 export const Navbar = () => {
   return (
@@ -19,17 +25,16 @@ export const Navbar = () => {
         }}
       >
         <RouterLink to="/" style={{ textDecoration: "none", color: "#1D1B20" }}>
-          <Typography
+          <Typography variant="subtitle2"
             sx={{
-              fontSize: "1rem",
-              fontWeight: "fontWeightBold",
+              fontWeight: 600,
               display: "flex",
               alignItems: "center",
               gap: 1,
             }}
           >
             <img src={LiveIncLogo} alt="Live Inc." style={{ height: "26px" }} />
-            Live, Inc.
+            Live Inc.
           </Typography>
         </RouterLink>
         <Stack spacing={2} direction="row">
@@ -48,7 +53,7 @@ export const Navbar = () => {
             </RouterLink>
           ))}
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={1}>
           {iconList.map((item) => (
             <RouterLink key={item.key} aria-label={item.key} to={item.href}>
               <IconButton aria-label={item.key}>{item.icon}</IconButton>
