@@ -10,9 +10,9 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/products", productRoutes);
-app.use("/customers", customerRoutes);
-app.use("/orders", orderRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", authRoutes);
 
 export default app;
