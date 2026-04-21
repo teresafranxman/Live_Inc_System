@@ -1,3 +1,2 @@
-export * from "./navigation";
 export * from "./footer";
-export * from "./landing/Home";
+export * from "./navigation"; 

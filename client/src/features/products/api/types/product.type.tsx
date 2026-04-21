@@ -7,12 +7,12 @@ export interface Review {
 
 export interface Product {
   id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: Array<string>;
+  title?: string;
+  price?: number;
+  description?: string;
+  category?: string;
+  image?: Array<string>;
   rating?: number;
-  count: number;
+  count?: number;
   reviews?: Review[];
 }
