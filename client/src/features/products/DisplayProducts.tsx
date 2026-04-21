@@ -1,13 +1,28 @@
 import { Box, Typography } from "@mui/material";
 import { GenericCard } from "../../components";
-import { getProducts } from "./api/getProducts";
+import {api} from '../../api';
+// import type { Product } from "./api/types/product.type";
+import { useEffect, useState } from "react";
+// import { getProducts } from "./api/getProducts";
+
+async function getProducts() {
+  try {
+    const res = await api.get('/api/products');
+    console.log(res)
+  } catch (err) {
+    console.log("error: ", err)
+  }
+}
 
 export const DisplayProducts = () => {
   const products = getProducts();
+  console.log(products)
+  
+  
 
   return (
     <Box component="section" sx={{ display: "flex", gap: 2 }}>
-      {products.map((product) => (
+      {/* {products.map((product) => (
         <GenericCard
           key={product.id}
           media={
@@ -27,7 +42,7 @@ export const DisplayProducts = () => {
             </Box>
           }
         />
-      ))}
+      ))} */}
     </Box>
   );
 };
