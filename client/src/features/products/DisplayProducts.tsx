@@ -46,7 +46,7 @@ export const DisplayProducts = () => {
             </Box>
           }
         />
-      ))} */}
+      ))}
     </Box>
   );
 };
