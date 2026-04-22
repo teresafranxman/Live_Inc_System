@@ -1,0 +1,7 @@
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    background-image: linear-gradient(180deg, hsla(0,0%,100%,.1), hsla(0,0%,100%,0));
+}
