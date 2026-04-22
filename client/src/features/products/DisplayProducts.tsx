@@ -1,9 +1,28 @@
 import { Box, Typography } from "@mui/material";
 import { GenericCard } from "../../components";
-import { GetProducts } from "./api/useProductsApi";
+// import { GetProducts } from "./api/useProductsApi";
+import { getProducts } from "./api/getProducts";
+import { useEffect, useState } from "react";
+import type { Product } from "./api/types/product.type";
+
 
 export const DisplayProducts = () => {
-  const products = GetProducts();
+  // const products = getProducts();
+  const [products, setProducts] = useState<Product[]>([]);
+  // console.log(products)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getProducts();
+        setProducts(res)
+        console.log(res)
+      } catch (err) {
+        console.log("Error: ", err);
+        throw err
+      }
+    };
+    fetchProducts()
+  }, [])
 
   return (
     <Box
@@ -18,11 +37,11 @@ export const DisplayProducts = () => {
     >
       {products.map((product) => (
         <GenericCard
-          key={product.id}
+          key={product.ProductID}
           media={
             <img
-              src={product.image?.[0] ?? ""}
-              alt={product.title}
+              src={product.ProductImg?.[0] ?? ""}
+              alt={product.ProductName}
               style={{ height: "300px", background: "#fbfbfb" }}
             />
           }
@@ -37,11 +56,10 @@ export const DisplayProducts = () => {
               }}
             >
               <Box component="div">
-                <Typography variant="body1">{product.title}</Typography>
-                <Typography variant="body2">{product.category}</Typography>
+                <Typography variant="body1">{product.ProductName}</Typography>
               </Box>
               <Box component="div">
-                <Typography variant="body1">{product.price}</Typography>
+                <Typography variant="body1">{product.Price}</Typography>
               </Box>
             </Box>
           }

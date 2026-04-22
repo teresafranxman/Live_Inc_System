@@ -1,7 +1,7 @@
-import { DryItOffInator1 } from '../../../assets/Dry-It-Off-Inator';
-import { LuffaplexDilly1 } from '../../../assets/Luffaplex-Dilly';
-import { Shrinkinator1 } from '../../../assets/Shrinkinator';
-import { Slowmotionator1 } from '../../../assets/Slow-motion-inator';
+import { DryItOffInator1 } from '../../../../../server/api/uploads/Dry-It-Off-Inator';
+import { LuffaplexDilly1 } from '../../../../../server/api/uploads/Luffaplex-Dilly';
+import { Shrinkinator1 } from '../../../../../server/api/uploads/Shrinkinator';
+import { Slowmotionator1 } from '../../../../../server/api/uploads/Slow-motion-inator';
 import type { Product } from "../../products/api/types/product.type";
 
 export const CardItems: Product[] = [
@@ -26,7 +26,8 @@ export const CardItems: Product[] = [
         title: "Shrink-inator",
         price: 30000
     },
-    {   id: 4,
+    {
+        id: 4,
         image: [`${LuffaplexDilly1}`],
         category: "inator",
         title: "Luffaplex-Dilly",

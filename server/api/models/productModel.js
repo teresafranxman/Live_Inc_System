@@ -27,7 +27,7 @@ export const Product = {
             ("ProductName", "ProductImg", "Description", "Price", "Quantity", "Rating")
              VALUES ($1, $2, $3, $4, $5, $6)
              RETURNING "ProductID"`,
-            [ProductName, ProductImg, Description, Price, Quantity, Rating]
+            [ProductName, JSON.stringify(ProductImg), Description, Price, Quantity, Rating]
         );
         return result.rows;
     },

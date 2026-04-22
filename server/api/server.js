@@ -8,9 +8,11 @@ import cors from "cors";
 import app from "./index.js";
 import { db } from "./config/db.js";
 
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "http://localhost:5173" }));
 
 const PORT = process.env.PORT || 5000;
+
+console.log("App starting...");
 
 db.query("SELECT NOW()")
     .then(() => console.log("DB connected successfully"))
@@ -24,6 +26,8 @@ app.get("/db-check", async (req, res) => {
 app.get("/", (req, res) => {
     res.send("API is now accessible on the LAN!");
 });
+
+console.log("About to start server...");
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on LAN on port ${PORT}`);
