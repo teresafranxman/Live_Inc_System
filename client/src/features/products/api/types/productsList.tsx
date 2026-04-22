@@ -1,9 +1,9 @@
-import Robosmall1  from "../../../../assets/Robosmall/Robot1.png";
-import DryItOffInator1  from "../../../../assets/Dry-It-Off-Inator/DryItOff1.png";
-import Shrinkinator1  from "../../../../assets/Shrinkinator/Shrinkinator1.png";
+import Robosmall1 from "../../../../assets/Robosmall/Robot1.png";
+import DryItOffInator1 from "../../../../assets/Dry-It-Off-Inator/DryItOff1.png";
+import Shrinkinator1 from "../../../../assets/Shrinkinator/Shrinkinator1.png";
 import Slowmotionator1 from "../../../../assets/Slow-motion-inator/Slowmotion-inator1.png";
-import { LuffaplexDilly1 } from "../../../../assets/Luffaplex-Dilly";
-import { VaporizerInator1 } from "../../../../assets/Vaporizer-inator 2.0";
+import { LuffaplexDilly1 } from "../../../../../../server/api/uploads/Luffaplex-Dilly";
+import { VaporizerInator1 } from "../../../../../../server/api/uploads/Vaporizer-inator 2.0";
 import type { Product } from "./product.type";
 
 export const productsList: Product[] = [

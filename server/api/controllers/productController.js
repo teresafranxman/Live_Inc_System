@@ -40,9 +40,13 @@ export const createProduct = async (req, res) => {
             return res.status(400).json({ error: "ProductImg must be an array of image urls/links/paths." });
         }
 
+        const imageUrls = req.files.map(file =>
+            `http://localhost:5000/uploads/${file.filename}`
+        );
+
         const created = await Product.create({
             ProductName: req.body.ProductName,
-            ProductImg: req.body.ProductImg,
+            ProductImg: imageUrls,
             Description: req.body.Description,
             Price: req.body.Price,
             Quantity: req.body.Quantity,

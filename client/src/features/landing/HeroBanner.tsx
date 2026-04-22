@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { Robosmall2 } from "../../assets/Robosmall";
+import { Robosmall2 } from "../../../../server/api/uploads/Robosmall";
 import { useNavigate } from "react-router";
 
 export const HeroBanner = () => {
