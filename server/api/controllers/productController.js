@@ -41,7 +41,7 @@ export const createProduct = async (req, res) => {
         }
 
         const imageUrls = req.files.map(file =>
-            `http://localhost:5000/uploads/${file.filename}`
+            `http://localhost:5000/${file.path}`
         );
 
         const created = await Product.create({
