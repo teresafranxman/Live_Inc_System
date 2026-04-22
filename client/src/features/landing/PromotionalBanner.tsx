@@ -26,7 +26,7 @@ export const PromotionalBanner = () => {
         variant="contained"
         color="secondary"
         size="large"
-        sx={{ width: "fit-content", borderRadius: "100px" }}
+        sx={{ width: "fit-content"}}
         onClick={() => navigate("/products")}
       >
         Shop Now
